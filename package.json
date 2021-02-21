@@ -1,0 +1,26 @@
+{
+  "name": "veshit-bot_commando",
+  "version": "1.0.0",
+  "description": "VESIT-Bot but Commando.js and Firebase Based",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "discord.js-commando": "git+https://github.com/discordjs/commando.git",
+    "eslint": "^7.20.0",
+    "module-alias": "^2.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varadrane07/VESHIT-Bot_commando.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/varadrane07/VESHIT-Bot_commando/issues"
+  },
+  "homepage": "https://github.com/varadrane07/VESHIT-Bot_commando#readme"
+}
