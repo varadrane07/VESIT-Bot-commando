@@ -5,9 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "discord.js-commando": "git+https://github.com/discordjs/commando.git",
+    "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^8.2.0",
     "eslint": "^7.20.0",
+    "firebase": "^8.2.9",
+    "firebase-admin": "^9.5.0",
     "module-alias": "^2.2.2"
   },
   "devDependencies": {},
