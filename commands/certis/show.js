@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const db = require('../../firebaseConnect');
@@ -30,10 +31,12 @@ module.exports = class RegisterCommand extends Command {
 				let Year = 2020;
 				let emailID = '2018.name.surname@ves.ac.in';
 				user.forEach(doc => {
-					Year = doc.get('joinYear');
+					const userinfo = doc.data();
+					console.log(userinfo);
 					emailID = doc.id;
+					Year = parseInt(userinfo.joinYear);
+
 				});
-				Year = parseInt(Year);
                 embed1.setDescription(`**Please Select the year of which you want to see your certificates.**\n
                 **1️⃣ 1st Year**\nAcademic Year ${Year} - ${Year + 1}\n\n
                 **2️⃣ 2nd Year**\nAcademic Year ${Year + 1} - ${Year + 2}\n\n
@@ -45,42 +48,42 @@ module.exports = class RegisterCommand extends Command {
 			message.embed(embed1).then (() => {
 				const filter = m => message.author.id === m.author.id;
 
-				message.channel.awaitMessages(filter, { maxProcessed: 1, time: 30000, errors: ["You Ran out of time. Type show again"] })
-				.then(messages1 => {
+				message.channel.awaitMessages(filter, { maxProcessed: 1, time: 30000, errors: ['You Ran out of time. Type show again'] })
+				.then(async messages1 => {
 					console.log(messages1.first().content);
-					const certiYear = messages1.first().content - 1 + Year;
-					embed1.setDescription("Certificates are listed here");
-					let certiexist = false;
-					const certificates = db.collection('Users/{emailID}/Certificates').where('year', '==', `${certiYear}`).get();
-					certificates.forEach(certificate => {
-						certiexist = true;
-						embed1.addField(`${certificate.name}`, `${certificate.description}`);
+					const certiYear = parseInt(messages1.first().content) - 1 + Year;
+					embed1.setDescription('Certificates are listed here');
+					console.log(certiYear);
+					const certiRef = db.collection('Users').doc(`${emailID}`).collection('Certificates');
+					const snapshot = await certiRef.where('year', '==', certiYear).get();
+					snapshot.forEach(doc => {
+						const certi = doc.data();
+						embed1.addFields(`${certi.name}`, `${doc.id}`);
 					});
-					if (!certiexist) {
-						embed1.setDescription("You didnt get any certificates this year")
+					if (certis.empty) {
+						embed1.setDescription('You didnt receive any certificates');
+						message.author.send(embed1);
 					}
-					console.log("Reached point 3")
 					message.author.send(embed1).then (() => {
-						const filter = m => message.author.id === m.author.id;
+						const filter2 = m => message.author.id === m.author.id;
 
-						message.channel.awaitMessages(filter, { maxProcessed: 1, time: 30000, errors: ["You Ran out of time. Type show again"] })
-							.then(messages => {
-								console.log(messages.first().content)
-								const reqCerti = parseInt(messages.first().content) - 1;
+						message.channel.awaitMessages(filter2, { maxProcessed: 1, time: 30000, errors: ['You Ran out of time. Type show again'] })
+							.then(async messages => {
+								console.log(messages.first().content);
+								const reqCertino = parseInt(messages.first().content) - 1;
 								const embed2 = new Discord.MessageEmbed()
-									.setTitle(`${user.certificates[messages.first().content + 1].name}`)
-									.setDescription(`[Certificate Link](${user.certificates[reqCerti].UID})`)
-									.setImage(certiLink)
-									.setFooter(`Show command used.`)
-									.setColor("#ed9d09")
+									.setTitle(`${certificates[reqCertino].name}`)
+									.setDescription(`[Certificate Link](${user.certificates[reqCertino].description})`)
+									.setImage(certificates.link)
+									.setFooter('Show command used.')
+									.setColor('#ed9d09');
 								messages.first().author.send(embed2);
 
 							});
 					});
 				})
 				.catch(() => {
-					embed1.setDescription('We encounterd some error. Try again');
-					message.author.send(embed1);
+					embed1.setDescription('There was an error, please try again');
 				});
 			});
 		}

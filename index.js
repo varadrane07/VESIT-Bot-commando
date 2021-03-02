@@ -9,8 +9,6 @@ const client = new CommandoClient({
 	invite: 'https://discord.gg/brapPEGjwg',
 });
 
-this.bot = client;
-
 client.registry
 	.registerGroups([
 		['certis', 'Certificates group of Commands'],

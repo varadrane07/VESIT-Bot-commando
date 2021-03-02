@@ -1,9 +1,10 @@
 // Initialize Firebase and Firestore
 const admin = require('firebase-admin');
-const ServiceAccount = require('./firestore/firebaseKey.json');
+// eslint-disable-next-line no-unused-vars
+const dotenv = require('dotenv').config();
 
 admin.initializeApp({
-	credential: admin.credential.cert(ServiceAccount),
+	credential: admin.credential.cert(JSON.parse(process.env.serviceKey)),
 });
 
 const db = admin.firestore();
