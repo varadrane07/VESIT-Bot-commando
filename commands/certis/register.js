@@ -16,6 +16,7 @@ module.exports = class RegisterCommand extends Command {
 			// eslint-disable-next-line quotes
 			description: "Registers your information to the Bot's Database",
             argsType: 'single',
+            guildOnly: true,
             throttling: {
                 usages: 1,
                 duration: 10,
@@ -44,6 +45,7 @@ module.exports = class RegisterCommand extends Command {
             if (!user.exists) {
                 embed.setDescription(`Email ID : ${emailID}\n
                     Please type below the year you joined college, for eg: 2020`);
+                embed.setFooter(`${emailID} is using register command`);
                 message.embed(embed).then(() => {
                     const filter = m => message.author.id === m.author.id;
                     message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['You Ran out of time. Start again'] })
@@ -58,15 +60,16 @@ module.exports = class RegisterCommand extends Command {
                             const setYear = db.collection('Users').doc(emailID).set(data);
                             embed.setDescription(`EmailID : **${emailID}**\n
                                 Year of Joining : **${joinYear}**\n
-                                You have beed registered Successfully`);
-                            embed.setFooter(`${emailID} used Register Command`);
-                            message.embed(embed);
+                                You have been registered Successfully`);
+                            embed.setFooter('To see your Certificates, use the &show Command');
+                            message.channel.messages.fetch({ limit: 3 }).then((results) => message.channel.bulkDelete(results));
+                            message.author.send(embed);
                         });
                     });
             }
             else {
-                embed.setDescription('You have already Registerd');
-                message.embed(embed);
+                embed.setDescription('You have already Registered');
+                message.author.send(embed);
             }
         }
     }

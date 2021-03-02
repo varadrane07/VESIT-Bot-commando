@@ -17,6 +17,7 @@ module.exports = class RegisterCommand extends Command {
 			// eslint-disable-next-line quotes
 			description: `Registers your information to the Bot's Database`,
             argsType: 'single',
+			guildOnly: true,
 			throttling: {
 				usages: 1,
 				duration: 10,
@@ -64,13 +65,14 @@ module.exports = class RegisterCommand extends Command {
 					});
 					if (snapshot.empty) {
 						embed1.setDescription('You didnt receive any certificates');
+						message.author.send(embed1);
+						message.channel.messages.fetch({ limit: 3 }).then((results) => message.channel.bulkDelete(results));
+						return;
 					}
 					message.embed(embed1).then (() => {
 						const filter2 = m => message.author.id === m.author.id;
-
 						message.channel.awaitMessages(filter2, { maxProcessed: 1, time: 30000, errors: ['You Ran out of time. Type show again'] })
 							.then(async messages => {
-								console.log(messages.first().content);
 								const reqCertino = parseInt(messages.first().content) - 1;
 								const embed2 = new MessageEmbed()
 									.setTitle(`${certificates[reqCertino].name}`)
@@ -78,6 +80,7 @@ module.exports = class RegisterCommand extends Command {
 									.setImage(certificates[reqCertino].link)
 									.setFooter('Show command used.')
 									.setColor('#ed9d09');
+								message.channel.messages.fetch({ limit: 5 }).then((results) => message.channel.bulkDelete(results));
 								messages.first().author.send(embed2);
 
 							});
