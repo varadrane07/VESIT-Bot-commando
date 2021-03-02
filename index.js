@@ -11,7 +11,7 @@ const client = new CommandoClient({
 
 client.registry
 	.registerGroups([
-		['certis', 'Certificates group of Commands'],
+		['certis', 'Certificate related Commands'],
 		['misc', 'Miscellaneous Commands'],
 	])
 	.registerDefaults()

@@ -10,11 +10,11 @@ module.exports = class RegisterCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'register',
-			aliases: ['reg', 'signup', 'signin'],
+			aliases: ['reg', 'signup', 'signin', 'login'],
 			group: 'certis',
 			memberName: 'register',
 			// eslint-disable-next-line quotes
-			description: `Registers your information to the Bot's Database`,
+			description: "Registers your information to the Bot's Database",
             argsType: 'single',
             throttling: {
                 usages: 1,
