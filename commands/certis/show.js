@@ -5,7 +5,8 @@ const db = require('../../firebaseConnect');
 const embed = new MessageEmbed()
     .setTitle('VESIT Bot')
     .setColor('#eba210')
-    .setFooter('Show command in use');
+    .setFooter('Show command in use')
+	.setThumbnail('https://imgur.com/xtiUoG1');
 
 module.exports = class RegisterCommand extends Command {
 	constructor(client) {
@@ -51,7 +52,8 @@ module.exports = class RegisterCommand extends Command {
 					const certiYear = parseInt(messages1.first().content) - 1 + Year;
 					const embed1 = new MessageEmbed()
 						.setTitle('VESIT Bot')
-						.setColor('#eba210');
+						.setColor('#eba210')
+						.setThumbnail('https://imgur.com/xtiUoG1');
 					embed1.setDescription('Certificates are listed here');
 					embed1.setFooter('To see a Particular Certificate, type its number.');
 					const certiRef = db.collection('Users').doc(`${emailID}`).collection('Certificates');
@@ -79,7 +81,8 @@ module.exports = class RegisterCommand extends Command {
 									.setDescription(`[Certificate Link](${certificates[reqCertino].link})`)
 									.setImage(certificates[reqCertino].link)
 									.setFooter('Show command used.')
-									.setColor('#ed9d09');
+									.setColor('#ed9d09')
+									.setThumbnail('https://imgur.com/xtiUoG1');
 								message.channel.messages.fetch({ limit: 5 }).then((results) => message.channel.bulkDelete(results));
 								messages.first().author.send(embed2);
 
