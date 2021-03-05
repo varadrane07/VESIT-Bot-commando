@@ -1,8 +1,12 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const db = require('../../firebaseConnect');
+
+// eslint-disable-next-line no-unused-vars
+const dotenv = require('dotenv').config();
+
 const embed = new MessageEmbed()
-    .setTitle('VESIT Bot')
+    .setTitle('VESIT Certificate Bot')
     .setColor('#eba210')
     .setFooter('Register command in use')
     .setThumbnail('https://imgur.com/xtiUoG1.png');
@@ -28,9 +32,11 @@ module.exports = class RegisterCommand extends Command {
     async run(message, args) {
         if(!args) {
             message.delete();
-            embed.setDescription('You didnt provide an Email, please type your VES Email after `register`');
-            message.embed(embed);
-            message.delete({ timeout: 5000 });
+            embed.setDescription(`🛑 Oops, you didnt provide an Email 🛑\n
+            ➥ Correct command is: ${process.env.prefix}register [VES_email]`);
+            message.channel.send(embed).then(msg => {
+                msg.delete({ timeout: 10000 });
+            });
             return;
         }
         // Setting variables to be stored in Firebase
@@ -40,17 +46,21 @@ module.exports = class RegisterCommand extends Command {
 
             // Verify College Domain
             if(!emailID.endsWith('@ves.ac.in')) {
-                embed.setDescription('Please use your VES mail id to register');
-                message.embed(embed);
+                embed.setDescription('❕ Please use your VES EmailID to register ❕');
+                message.delete();
+                message.reply(embed).then(msg => {
+                    msg.delete({ timeout: 10000 });
+                });
                 return;
             }
 
             // find a user wih the discordID and save it in the variable regMember, then use promise to update the email/ add the new email
             const user = await db.collection('Users').doc(emailID).get();
             if (!user.exists) {
-                embed.setDescription(`Email ID : ${emailID}\n
-                    Please type below the year you joined college, for eg: 2020`);
-                embed.setFooter(`${emailID} is using register command`);
+                embed.setDescription(`${message.author.username} is Registering...`);
+                embed.addField(`✅ **Email ID : ${emailID}**`, '☝ Check your email again');
+                embed.addField('❕ Join Year: ', 'Type your join year below this message\n*eg. 2020*');
+                message.delete();
                 message.embed(embed).then(() => {
                     const filter = m => message.author.id === m.author.id;
                     message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['You Ran out of time. Start again'] })
@@ -63,17 +73,17 @@ module.exports = class RegisterCommand extends Command {
                             };
                             // eslint-disable-next-line no-unused-vars
                             const setYear = db.collection('Users').doc(emailID).set(data);
-                            embed.setDescription(`EmailID : **${emailID}**\n
-                                Year of Joining : **${joinYear}**\n
-                                **You have been registered Successfully**`);
-                            embed.addField('To see your Certificates, use the &show Command', 'To see other commands, use &help');
-                            message.channel.messages.fetch({ limit: 3 }).then((results) => message.channel.bulkDelete(results));
+                            embed.setDescription(`${message.author.username} has **Registered Successfully**👍`);
+                            embed.spliceFields(1, 1, [{ name: `✅ Join Year: ${joinYear}`, value: '👆 Check your Joining Year too' }]);
+                            embed.setFooter('Register command used');
+                            message.channel.messages.fetch({ limit: 2 }).then((results) => message.channel.bulkDelete(results));
                             message.author.send(embed);
                         });
                     });
             }
             else {
-                embed.setDescription('You have already Registered');
+                embed.setDescription('❕ You have already Registered');
+                message.channel.messages.fetch({ limit: 1 }).then((results) => message.channel.bulkDelete(results));
                 message.author.send(embed);
             }
         }

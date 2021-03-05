@@ -19,7 +19,7 @@ client.registry
 
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
-	client.user.setActivity('the prefix &', { type: 'LISTENING' });
+	client.user.setActivity(`the help command ${process.env.prefix}help`, { type: 'LISTENING' });
 });
 
 client.on('error', console.error);

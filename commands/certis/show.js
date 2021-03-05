@@ -2,8 +2,12 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const db = require('../../firebaseConnect');
+
+// eslint-disable-next-line no-unused-vars
+const dotenv = require('dotenv').config();
+
 const embed = new MessageEmbed()
-    .setTitle('VESIT Bot')
+    .setTitle('VESIT Certificates Bot')
     .setColor('#eba210')
     .setFooter('Show command in use')
 	.setThumbnail('https://imgur.com/xtiUoG1.png');
@@ -44,6 +48,7 @@ module.exports = class RegisterCommand extends Command {
                 **3️⃣ 3rd Year**\nAcademic Year ${Year + 2} - ${Year + 3}\n\n
                 **4️⃣ 4th Year**\nAcademic Year ${Year + 3} - ${Year + 4}\n\n`);
 			embed.setFooter('Type 1 to 4 to select year');
+			message.channel.messages.fetch({ limit: 1 }).then((results) => message.channel.bulkDelete(results));
 			message.embed(embed).then (() => {
 				const filter = m => message.author.id === m.author.id;
 
@@ -94,6 +99,12 @@ module.exports = class RegisterCommand extends Command {
 					message.author.send(embed);
 				});
 			});
+
+		}
+		else {
+			embed.setDescription(`You are not registered. Use the ${process.env.prefix}register command to register first`);
+			message.channel.messages.fetch({ limit: 1 }).then((results) => message.channel.bulkDelete(results));
+			message.author.send(embed);
 		}
     }
 };
