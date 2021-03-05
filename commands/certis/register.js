@@ -31,8 +31,7 @@ module.exports = class RegisterCommand extends Command {
             .setThumbnail('https://imgur.com/xtiUoG1.png');
         if(!args) {
             message.delete();
-            embed.setDescription(`🛑 Oops, you didnt provide an Email 🛑\n
-            ➥ Correct command is: ${process.env.prefix}register [VES_email]`);
+            embed.setDescription(`🛑 Oops, you didnt provide an Email.\n➥ Correct command is: ${process.env.prefix}register [VES_email]`);
             message.channel.send(embed).then(msg => {
                 msg.delete({ timeout: 10000 });
             });
