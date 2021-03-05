@@ -5,12 +5,6 @@ const db = require('../../firebaseConnect');
 // eslint-disable-next-line no-unused-vars
 const dotenv = require('dotenv').config();
 
-const embed = new MessageEmbed()
-    .setTitle('VESIT Certificate Bot')
-    .setColor('#eba210')
-    .setFooter('Register command in use')
-    .setThumbnail('https://imgur.com/xtiUoG1.png');
-
 module.exports = class RegisterCommand extends Command {
 	constructor(client) {
 		super(client, {
@@ -30,6 +24,11 @@ module.exports = class RegisterCommand extends Command {
     }
 
     async run(message, args) {
+        const embed = new MessageEmbed()
+            .setTitle('VESIT Certificate Bot')
+            .setColor('#eba210')
+            .setFooter('Register command in use')
+            .setThumbnail('https://imgur.com/xtiUoG1.png');
         if(!args) {
             message.delete();
             embed.setDescription(`🛑 Oops, you didnt provide an Email 🛑\n
@@ -75,7 +74,8 @@ module.exports = class RegisterCommand extends Command {
                             const setYear = db.collection('Users').doc(emailID).set(data);
                             embed.setDescription(`${message.author.username} has **Registered Successfully**👍`);
                             embed.spliceFields(1, 1, [{ name: `✅ Join Year: ${joinYear}`, value: '👆 Check your Joining Year too' }]);
-                            embed.setFooter('Register command used');
+                            embed.addField(`Use ${process.env.prefix}show to see your certificates, and ${process.env.prefix}help to see all commands`);
+                            embed.setFooter('Register command in use');
                             message.channel.messages.fetch({ limit: 2 }).then((results) => message.channel.bulkDelete(results));
                             message.author.send(embed);
                         });
