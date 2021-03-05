@@ -46,8 +46,8 @@ module.exports = class RegisterCommand extends Command {
             }
 
             // find a user wih the discordID and save it in the variable regMember, then use promise to update the email/ add the new email
-            const user = await db.collection('Users').doc(emailID).get();
-            if (!user.exists) {
+            const user = await db.collection('Users').where('discordID', '==', discordID).get();
+            if (!user.empty) {
                 embed.setDescription(`Email ID : ${emailID}\n
                     Please type below the year you joined college, for eg: 2020`);
                 embed.setFooter(`${emailID} is using register command`);
