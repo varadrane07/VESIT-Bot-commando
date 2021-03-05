@@ -5,7 +5,7 @@ const embed = new MessageEmbed()
     .setTitle('VESIT Bot')
     .setColor('#eba210')
     .setFooter('Register command in use')
-    .setThumbnail('https://imgur.com/xtiUoG1');
+    .setThumbnail('https://imgur.com/xtiUoG1.png');
 
 module.exports = class RegisterCommand extends Command {
 	constructor(client) {
@@ -27,6 +27,7 @@ module.exports = class RegisterCommand extends Command {
 
     async run(message, args) {
         if(!args) {
+            message.delete();
             embed.setDescription('You didnt provide an Email, please type your VES Email after `register`');
             message.embed(embed);
             message.delete({ timeout: 5000 });
@@ -41,13 +42,12 @@ module.exports = class RegisterCommand extends Command {
             if(!emailID.endsWith('@ves.ac.in')) {
                 embed.setDescription('Please use your VES mail id to register');
                 message.embed(embed);
-                message.delete({ timeout: 5000 });
                 return;
             }
 
             // find a user wih the discordID and save it in the variable regMember, then use promise to update the email/ add the new email
-            const user = await db.collection('Users').where('discordID', '==', discordID).get();
-            if (!user.empty) {
+            const user = await db.collection('Users').doc(emailID).get();
+            if (!user.exists) {
                 embed.setDescription(`Email ID : ${emailID}\n
                     Please type below the year you joined college, for eg: 2020`);
                 embed.setFooter(`${emailID} is using register command`);

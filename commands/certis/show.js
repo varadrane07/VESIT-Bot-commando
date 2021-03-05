@@ -6,7 +6,7 @@ const embed = new MessageEmbed()
     .setTitle('VESIT Bot')
     .setColor('#eba210')
     .setFooter('Show command in use')
-	.setThumbnail('https://imgur.com/xtiUoG1');
+	.setThumbnail('https://imgur.com/xtiUoG1.png');
 
 module.exports = class RegisterCommand extends Command {
 	constructor(client) {
@@ -53,7 +53,7 @@ module.exports = class RegisterCommand extends Command {
 					const embed1 = new MessageEmbed()
 						.setTitle('VESIT Bot')
 						.setColor('#eba210')
-						.setThumbnail('https://imgur.com/xtiUoG1');
+						.setThumbnail('https://imgur.com/xtiUoG1.png');
 					embed1.setDescription('Certificates are listed here');
 					embed1.setFooter('To see a Particular Certificate, type its number.');
 					const certiRef = db.collection('Users').doc(`${emailID}`).collection('Certificates');
@@ -82,7 +82,7 @@ module.exports = class RegisterCommand extends Command {
 									.setImage(certificates[reqCertino].link)
 									.setFooter('Show command used.')
 									.setColor('#ed9d09')
-									.setThumbnail('https://imgur.com/xtiUoG1');
+									.setThumbnail('https://imgur.com/xtiUoG1.png');
 								message.channel.messages.fetch({ limit: 5 }).then((results) => message.channel.bulkDelete(results));
 								messages.first().author.send(embed2);
 
