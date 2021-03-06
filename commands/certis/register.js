@@ -27,10 +27,11 @@ module.exports = class RegisterCommand extends Command {
             .setTitle('VESIT Certificate Bot')
             .setColor('#eba210')
             .setFooter('Register command in use')
-            .setThumbnail('https://imgur.com/xtiUoG1.png');
+            .setThumbnail('https://imgur.com/xtiUoG1.png')
+            .setTimestamp();
         if(!args) {
             message.delete();
-            embed.setDescription(`🛑 Oops, you didnt provide an Email.\n➥ Correct command is: **${process.env.prefix}register [VES_Email]**`);
+            embed.setDescription(`🛑 Oops, you didnt provide an Email\n\n➥ Correct command is: \`${process.env.prefix}register [VES_Email]\``);
             message.channel.send(embed).then(msg => {
                 msg.delete({ timeout: 15000 });
             });
@@ -43,7 +44,7 @@ module.exports = class RegisterCommand extends Command {
 
             // Verify College Domain
             if(!emailID.endsWith('@ves.ac.in')) {
-                embed.setDescription(`❕ Please use your VES EmailID to register ❕\n➥ Correct command is: **${process.env.prefix}register [VES_Email]**`);
+                embed.setDescription(`❕ Please use your VES EmailID to register ❕\n➥ Correct command is: \`${process.env.prefix}register [VES_Email]\``);
                 message.delete();
                 message.reply(embed).then(msg => {
                     msg.delete({ timeout: 15000 });
@@ -68,7 +69,7 @@ module.exports = class RegisterCommand extends Command {
                             // eslint-disable-next-line no-unused-vars
                             const setYear = db.collection('Users').doc(emailID).set(data);
                             embed.setDescription(`${message.author.username} has **Registered Successfully**👍\n\n✅ **Email ID : ${emailID}**\nYour certificates with this email will be shown to you\n\n✅ Join Year: ${joinYear}`);
-                            embed.addField('What to do next?', `Use **${process.env.prefix}show** to see your certificates, and **${process.env.prefix}help** to see all commands`);
+                            embed.addField('What to do next?', `Use \`${process.env.prefix}show\` to see your certificates, and \`${process.env.prefix}help\` to see all commands`);
                             embed.setFooter('Register command used');
                             message.channel.messages.fetch({ limit: 2 }).then((results) => message.channel.bulkDelete(results));
                             message.author.send(embed);
@@ -85,7 +86,7 @@ module.exports = class RegisterCommand extends Command {
                     regdiscordID = userInfo.discordID;
                     join = userInfo.joinYear;
                 });
-                embed.setDescription(`❕ **You have already Registered with the following credentials**\n\nEmail ID: ${registeredmail}\nJoining Year : ${join}\nDiscord Username : <@!${regdiscordID}>\n\nUse the **${process.env.prefix}show** command to see your certificates.`);
+                embed.setDescription(`❕ **You have already Registered with the following credentials**\n\nEmail ID: \`${registeredmail}\`\nJoining Year : \`${join}\`\nDiscord Username : <@!${regdiscordID}>\n\nUse the \`${process.env.prefix}show\` command to see your certificates.`);
                 message.channel.messages.fetch({ limit: 1 }).then((results) => message.channel.bulkDelete(results));
                 message.channel.send(embed).then(msg => {
                     msg.delete({ timeout: 20000 });

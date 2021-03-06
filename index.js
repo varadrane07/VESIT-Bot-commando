@@ -10,11 +10,16 @@ const client = new CommandoClient({
 });
 
 client.registry
+	.registerDefaultTypes()
 	.registerGroups([
 		['certis', 'Certificate related Commands'],
 		['misc', 'Miscellaneous Commands'],
 	])
-	.registerDefaults()
+	.registerDefaultGroups()
+	.registerDefaultCommands({
+		unknownCommand: false,
+		eval: false,
+	})
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.once('ready', () => {
