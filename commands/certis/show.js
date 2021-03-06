@@ -58,7 +58,7 @@ module.exports = class RegisterCommand extends Command {
 						.setTimestamp()
 						.setThumbnail('https://imgur.com/xtiUoG1.png');
 					embed1.setDescription('**Certificates are listed here**');
-					embed1.setFooter('👇 To see a Particular Certificate, type its number.');
+					embed1.setFooter('👆 To see a Particular Certificate, type its number.');
 					const certiRef = db.collection('Users').doc(`${emailID}`).collection('Certificates');
 					const snapshot = await certiRef.where('year', '==', certiYear).get();
 					let count = 1;
