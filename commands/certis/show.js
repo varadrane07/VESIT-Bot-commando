@@ -16,7 +16,7 @@ module.exports = class RegisterCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'show',
-			aliases: ['open', 'certificates', 'certificate', 'certi', 'certis'],
+			aliases: ['open', 'certificates', 'certificate', 'certi', 'certis', 's'],
 			group: 'certis',
 			memberName: 'show',
 			// eslint-disable-next-line quotes
@@ -24,7 +24,7 @@ module.exports = class RegisterCommand extends Command {
             argsType: 'single',
 			guildOnly: true,
 			throttling: {
-				usages: 1,
+				usages: 2,
 				duration: 10,
 			},
 		});
