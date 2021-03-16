@@ -40,11 +40,7 @@ module.exports = class RegisterCommand extends Command {
 					Year = parseInt(userinfo.joinYear);
 
 				});
-                embed.setDescription(`**Which year's Certificate you want to see ?**\n
-                ⚪ Type \`1\` for : **1st Year** (FE) ⚪\nAcademic Year ${Year} - ${Year + 1}\n\n
-                🟢 Type \`2\` for : **2nd Year** (SE) 🟢\nAcademic Year ${Year + 1} - ${Year + 2}\n\n
-                🔴 Type \`3\` for : **3rd Year** (TE) 🔴\nAcademic Year ${Year + 2} - ${Year + 3}\n\n
-                🔵 Type \`4\` for : **4th Year** (BE) 🔵\nAcademic Year ${Year + 3} - ${Year + 4}\n\n`);
+                embed.setDescription(`**Which year's Certificate you want to see ?**\n⚪ Type \`1\` for : **1st Year** (FE) ⚪\nAcademic Year ${Year} - ${Year + 1}\n\n🟢 Type \`2\` for : **2nd Year** (SE) 🟢\nAcademic Year ${Year + 1} - ${Year + 2}\n\n🔴 Type \`3\` for : **3rd Year** (TE) 🔴\nAcademic Year ${Year + 2} - ${Year + 3}\n\n🔵 Type \`4\` for : **4th Year** (BE) 🔵\nAcademic Year ${Year + 3} - ${Year + 4}\n\n`);
 			message.channel.messages.fetch({ limit: 1 }).then((results) => message.channel.bulkDelete(results));
 			message.embed(embed).then (() => {
 				const filter = m => message.author.id === m.author.id;
@@ -83,7 +79,7 @@ module.exports = class RegisterCommand extends Command {
 								const reqCertino = parseInt(messages.first().content) - 1;
 								const embed2 = new MessageEmbed()
 									.setTitle(`🎉 ${certificates[reqCertino].name} 🎉`)
-									.setDescription(`${certificates[reqCertino].description}[LinkedIN URL](${certificates[reqCertino].link})`)
+									.setDescription(`${certificates[reqCertino].description}\n\n[LinkedIN URL](${certificates[reqCertino].link})`)
 									.setImage(certificates[reqCertino].link)
 									.setFooter('Show command used.')
 									.setColor('#ed9d09')
