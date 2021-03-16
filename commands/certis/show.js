@@ -72,7 +72,7 @@ module.exports = class RegisterCommand extends Command {
 					snapshot.forEach(doc => {
 						const certi = doc.data();
 						certificates.push(certi);
-						embed1.addField(`\`${count}.\` ${certi.name}`, `${doc.id}`);
+						embed1.addField(`\`${count}.\` ${certi.name}`, `${certi.description}`);
 						count++;
 					});
 					message.channel.messages.fetch({ limit: 2 }).then((results) => message.channel.bulkDelete(results));
@@ -83,7 +83,7 @@ module.exports = class RegisterCommand extends Command {
 								const reqCertino = parseInt(messages.first().content) - 1;
 								const embed2 = new MessageEmbed()
 									.setTitle(`🎉 ${certificates[reqCertino].name} 🎉`)
-									.setDescription(`[LinkedIN URL](${certificates[reqCertino].link})`)
+									.setDescription(`${certificates[reqCertino].description}[LinkedIN URL](${certificates[reqCertino].link})`)
 									.setImage(certificates[reqCertino].link)
 									.setFooter('Show command used.')
 									.setColor('#ed9d09')
