@@ -55,7 +55,7 @@ module.exports = class RegisterCommand extends Command {
             // find a user wih the discordID and save it in the variable regMember, then use promise to update the email/ add the new email
             const user = await db.collection('Users').where('discordID', '==', discordID).get();
             if (user.empty) {
-                embed.setDescription(`${message.author.username} is Registering...\n\n✅ **Email ID : ${emailID}**\n☝ Check your email again\n\n❕ Join Year: \nType your join year below this message\n*eg. 2020*`);
+                embed.setDescription(`${message.author.username} is Registering...\n\n✅ **Email ID : ${emailID}**\n☝ Check your email again\n\n❕ Join Year: \n**Type your join year below this message**\n*eg. 2020*`);
                 message.delete();
                 message.embed(embed).then(() => {
                     const filter = m => message.author.id === m.author.id;

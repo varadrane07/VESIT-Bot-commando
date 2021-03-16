@@ -10,7 +10,7 @@ module.exports = class RegisterCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'show',
-			aliases: ['open', 'certificates', 'certificate', 'certi', 'certis', 's'],
+			aliases: ['certificates', 'certificate', 'certi', 'certis', 's'],
 			group: 'certis',
 			memberName: 'show',
 			// eslint-disable-next-line quotes
@@ -79,7 +79,7 @@ module.exports = class RegisterCommand extends Command {
 								const reqCertino = parseInt(messages.first().content) - 1;
 								const embed2 = new MessageEmbed()
 									.setTitle(`🎉 ${certificates[reqCertino].name} 🎉`)
-									.setDescription(`${certificates[reqCertino].description}\n\n[LinkedIN URL](${certificates[reqCertino].link})`)
+									.setDescription(`${certificates[reqCertino].description}\n\n[Certificate URL](${certificates[reqCertino].link})`)
 									.setImage(certificates[reqCertino].link)
 									.setFooter('Show command used.')
 									.setColor('#ed9d09')
