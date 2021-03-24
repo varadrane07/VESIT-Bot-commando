@@ -48,6 +48,7 @@ module.exports = class RegisterCommand extends Command {
 				message.channel.awaitMessages(filter, { maxProcessed: 1, time: 30000, errors: ['time'] })
 				.then(async messages1 => {
 					const certiYear = parseInt(messages1.first().content) - 1 + Year;
+					const certiYearString = certiYear.toString();
 					const embed1 = new MessageEmbed()
 						.setTitle('VESIT Bot')
 						.setColor('#eba210')
@@ -56,7 +57,7 @@ module.exports = class RegisterCommand extends Command {
 					embed1.setDescription('**Certificates are listed here**');
 					embed1.setFooter('👆 To see a Particular Certificate, type its number.');
 					const certiRef = db.collection('Users').doc(`${emailID}`).collection('Certificates');
-					const snapshot = await certiRef.where('year', '==', certiYear).get();
+					const snapshot = await certiRef.where('year', '==', certiYearString).get();
 					let count = 1;
 					if (snapshot.empty) {
 						// eslint-disable-next-line quotes
